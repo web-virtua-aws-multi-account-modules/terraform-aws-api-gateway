@@ -22,7 +22,7 @@ locals {
           authorization_method      = resource.authorization_method != null ? resource.authorization_method : try(var.resources_methods[0].authorization_method, null)
           request_parameters_method = resource.request_parameters_method != null ? resource.request_parameters_method : try(var.resources_methods[0].request_parameters_method, null)
           authorizer_id_external    = resource.authorizer_id_external != null ? resource.authorizer_id_external : try(var.resources_methods[0].authorizer_id_external, null)
-          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && resource.authorization_method == "COGNITO_USER_POOLS") ? 0 : null
+          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && (resource.authorization_method == "COGNITO_USER_POOLS" || resource.authorization_method == "CUSTOM")) ? 0 : null
           # integration
           http_method_integration        = resource.http_method_integration != null ? resource.http_method_integration : try(var.resources_methods[0].http_method_integration, null)
           type_integration               = resource.type_integration != null ? resource.type_integration : try(var.resources_methods[0].type_integration, null)
@@ -67,7 +67,7 @@ locals {
           authorization_method      = resource.authorization_method != null ? resource.authorization_method : try(var.resources_methods[0].authorization_method, null)
           request_parameters_method = resource.request_parameters_method != null ? resource.request_parameters_method : try(var.resources_methods[0].request_parameters_method, null)
           authorizer_id_external    = resource.authorizer_id_external != null ? resource.authorizer_id_external : try(var.resources_methods[0].authorizer_id_external, null)
-          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && resource.authorization_method == "COGNITO_USER_POOLS") ? 0 : null
+          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && (resource.authorization_method == "COGNITO_USER_POOLS" || resource.authorization_method == "CUSTOM")) ? 0 : null
           # integration
           http_method_integration        = resource.http_method_integration != null ? resource.http_method_integration : try(var.resources_methods[0].http_method_integration, null)
           type_integration               = resource.type_integration != null ? resource.type_integration : try(var.resources_methods[0].type_integration, null)
@@ -113,7 +113,7 @@ locals {
           authorization_method      = resource.authorization_method != null ? resource.authorization_method : try(var.resources_methods[0].authorization_method, null)
           request_parameters_method = resource.request_parameters_method != null ? resource.request_parameters_method : try(var.resources_methods[0].request_parameters_method, null)
           authorizer_id_external    = resource.authorizer_id_external != null ? resource.authorizer_id_external : try(var.resources_methods[0].authorizer_id_external, null)
-          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && resource.authorization_method == "COGNITO_USER_POOLS") ? 0 : null
+          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && (resource.authorization_method == "COGNITO_USER_POOLS" || resource.authorization_method == "CUSTOM")) ? 0 : null
           # integration
           http_method_integration        = resource.http_method_integration != null ? resource.http_method_integration : try(var.resources_methods[0].http_method_integration, null)
           type_integration               = resource.type_integration != null ? resource.type_integration : try(var.resources_methods[0].type_integration, null)
@@ -159,7 +159,7 @@ locals {
           authorization_method      = resource.authorization_method != null ? resource.authorization_method : try(var.resources_methods[0].authorization_method, null)
           request_parameters_method = resource.request_parameters_method != null ? resource.request_parameters_method : try(var.resources_methods[0].request_parameters_method, null)
           authorizer_id_external    = resource.authorizer_id_external != null ? resource.authorizer_id_external : try(var.resources_methods[0].authorizer_id_external, null)
-          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && resource.authorization_method == "COGNITO_USER_POOLS") ? 0 : null
+          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && (resource.authorization_method == "COGNITO_USER_POOLS" || resource.authorization_method == "CUSTOM")) ? 0 : null
           # integration
           http_method_integration        = resource.http_method_integration != null ? resource.http_method_integration : try(var.resources_methods[0].http_method_integration, null)
           type_integration               = resource.type_integration != null ? resource.type_integration : try(var.resources_methods[0].type_integration, null)
@@ -205,7 +205,7 @@ locals {
           authorization_method      = resource.authorization_method != null ? resource.authorization_method : try(var.resources_methods[0].authorization_method, null)
           request_parameters_method = resource.request_parameters_method != null ? resource.request_parameters_method : try(var.resources_methods[0].request_parameters_method, null)
           authorizer_id_external    = resource.authorizer_id_external != null ? resource.authorizer_id_external : try(var.resources_methods[0].authorizer_id_external, null)
-          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && resource.authorization_method == "COGNITO_USER_POOLS") ? 0 : null
+          authorizer_id_index       = resource.authorizer_id_index != null ? resource.authorizer_id_index : var.resources_methods[0].authorizer_id_index != null ? var.resources_methods[0].authorizer_id_index : (resource.authorizer_id_external == null && (resource.authorization_method == "COGNITO_USER_POOLS" || resource.authorization_method == "CUSTOM")) ? 0 : null
           # integration
           http_method_integration        = resource.http_method_integration != null ? resource.http_method_integration : try(var.resources_methods[0].http_method_integration, null)
           type_integration               = resource.type_integration != null ? resource.type_integration : try(var.resources_methods[0].type_integration, null)
