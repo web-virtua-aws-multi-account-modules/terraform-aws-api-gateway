@@ -470,8 +470,8 @@ module "api_http" {
 | make_deployment | `bool` | `true` | no | If true will be created a deployment and resources associates | `*`false <br> `*`true |
 | make_lambda_permissions | `bool` | `true` | no | If true will be created a lambda permissions to API Gateway | `*`false <br> `*`true |
 | domain_path_mapping_new_version | `object` | `null` | no | This variable define a new version in the custom domains, using the same DNS, but mapping to a new API Gateway, ex: exemple.com/v2, if used the make_acm_certificate variables should be set as true | `-` |
-| api_gateway_assume_role_arn | `string` | `null` | no | If not defined will be created a new role, else will be used this role name | `-` |
-| api_gateway_assume_role_id | `string` | `null` | no | If not defined will be necessery | `-` |
+| api_gateway_assume_role_arn | `string` | `null` | no | If not defined will be created a new role, else will be used this role ARN, but will be required also defined the api_gateway_assume_role_id variable | `-` |
+| api_gateway_assume_role_id | `string` | `null` | no | If api_gateway_assume_role_arn variable is defined, then this variable will be necessery as well | `-` |
 | api_gateway_assume_role | `any` | `object` | no | Assume role to API Gateway | `-` |
 | api_gateway_assume_role_description | `string` | `null` | no | API Gateway assume role description | `-` |
 | make_log_group_policy | `bool` | `true` | no | If true will be created a new log group policy | `*`false <br> `*`true |

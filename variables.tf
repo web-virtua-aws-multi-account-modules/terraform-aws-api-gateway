@@ -177,7 +177,7 @@ variable "api_gateway_authorizers" {
   description = "List of Cognito API Gateway authorizers"
   type = list(object({
     name                             = string
-    provider_arns                    = list(string)
+    provider_arns                    = optional(list(string))
     type                             = optional(string)
     authorizer_uri                   = optional(string)
     identity_source                  = optional(string)
@@ -392,13 +392,13 @@ variable "domain_path_mapping_new_version" {
 ##################################################
 ################## Log Group #####################
 variable "api_gateway_assume_role_arn" {
-  description = "If not defined will be created a new role, else will be used this role name"
+  description = "If not defined will be created a new role, else will be used this role ARN, but will be required also defined the api_gateway_assume_role_id variable"
   type        = string
   default     = null
 }
 
 variable "api_gateway_assume_role_id" {
-  description = "If not defined will be necessery"
+  description = "If api_gateway_assume_role_arn variable is defined, then this variable will be necessery as well"
   type        = string
   default     = null
 }
