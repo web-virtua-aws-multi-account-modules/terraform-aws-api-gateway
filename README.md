@@ -478,6 +478,230 @@ module "api_http" {
 | log_group_retention_in_days | `number` | `7` | no | Log group retention in days to keep the logs in Cloudwatch | `-` |
 | log_group_policy | `any` | `object` | no | Log group policy to API Gateway | `-` |
 
+* Model of variable stage_extra_settings
+```hcl
+variable "stage_extra_settings" {
+  description = "Stage extra settings to API Gateway deployment"
+  type = object({
+    cache_cluster_enabled = optional(bool)
+    cache_cluster_size    = optional(string)
+    client_certificate_id = optional(string)
+    description           = optional(string)
+    documentation_version = optional(string)
+    variables             = optional(map(any))
+    xray_tracing_enabled  = optional(bool)
+  })
+  default = null
+}
+```
+
+* Model of variable api_gateway_authorizers
+```hcl
+variable "api_gateway_authorizers" {
+  description = "List of Cognito API Gateway authorizers"
+  type = list(object({
+    name                             = string
+    provider_arns                    = optional(list(string))
+    type                             = optional(string)
+    authorizer_uri                   = optional(string)
+    identity_source                  = optional(string)
+    authorizer_credentials           = optional(string)
+    identity_validation_expression   = optional(string)
+    authorizer_result_ttl_in_seconds = optional(number)
+  }))
+  default = [
+    {
+      name          = "tf-cognito-user-pool-1"
+      type          = "COGNITO_USER_POOLS"
+      provider_arns = [var.cognito_user_pool_arn]
+    }
+  ]
+}
+```
+
+* Model of variable resources_methods
+```hcl
+variable "resources_methods" {
+  description = "List of resources that represent the path configurations to enpoints"
+  type = list(object({
+    path                 = string
+    method_all_sub_paths = optional(bool) # If true all sub paths will have method
+    methods = optional(list(object({
+      http_method                      = optional(string)
+      http_method_integration          = optional(string)
+      type_integration                 = optional(string)
+      uri_integration                  = optional(string)
+      request_parameters_integration   = optional(map(any))
+      passthrough_behavior_integration = optional(string)
+      content_handling_integration     = optional(string)
+      connection_type_integration      = optional(string)
+      connection_id_integration        = optional(string)
+      request_templates_integration    = optional(map(any))
+
+      credentials_integration          = optional(string)
+      cache_key_parameters_integration = optional(list(string))
+      cache_namespace_integration      = optional(string)
+      timeout_milliseconds_integration = optional(number)
+      tls_config_integration           = optional(bool)
+    })))
+    http_method               = optional(string)
+    authorization_method      = optional(string)
+    request_parameters_method = optional(map(any))
+    authorizer_id_external    = optional(string) # To set one authorizer external
+    authorizer_id_index       = optional(number) # If more than one authorizer choosing for the index
+    # integration
+    http_method_integration        = optional(string)
+    type_integration               = optional(string)
+    uri_integration                = optional(string)
+    request_parameters_integration = optional(map(any))
+    # others configurations
+    authorization_scopes_method      = optional(list(string))
+    api_key_required_method          = optional(bool)
+    operation_name_method            = optional(string)
+    request_models_method            = optional(map(any))
+    request_validator_id_method      = optional(string)
+    passthrough_behavior_integration = optional(string)
+    content_handling_integration     = optional(string)
+    connection_type_integration      = optional(string)
+    connection_id_integration        = optional(string)
+    request_templates_integration    = optional(map(any))
+    credentials_integration          = optional(string)
+    cache_key_parameters_integration = optional(list(string))
+    cache_namespace_integration      = optional(string)
+    timeout_milliseconds_integration = optional(number)
+    tls_config_integration           = optional(bool)
+    # responses
+    responses = optional(object({
+      methods = optional(list(object({
+        status_code         = string
+        response_models     = optional(map(any))
+        response_parameters = optional(map(any))
+      })))
+      integrations = optional(list(object({
+        status_code         = string
+        selection_pattern   = optional(string)
+        response_templates  = optional(map(any))
+        content_handling    = optional(string)
+        response_parameters = optional(map(any))
+      })))
+    }))
+  }))
+  default = [
+    {
+      path                    = "{proxy+}"
+      http_method             = "ANY"
+      authorization_method    = "NONE"
+      authorization_method    = "COGNITO_USER_POOLS"
+      http_method_integration = "POST"
+      type_integration        = "AWS_PROXY"
+      uri_integration         = var.lambda_function_invoke_arn
+      request_parameters_method = {
+        "method.request.path.proxy" = true
+      }
+    },
+  ]
+}
+```
+
+* Model of variable lambda_permission_api
+```hcl
+variable "lambda_permission_api" {
+  description = "List with lambda functions that give allow access to API Gateway"
+  type = list(object({
+    action                 = optional(string, "lambda:InvokeFunction")
+    principal              = optional(string, "apigateway.amazonaws.com")
+    statement_id           = optional(string, null)
+    function_name          = optional(string, null)
+    source_arn             = optional(string, null)
+    qualifier              = optional(string, null)
+    event_source_token     = optional(string, null)
+    function_url_auth_type = optional(string, null)
+    source_account         = optional(string, null)
+    principal_org_id       = optional(string, null)
+    description            = optional(string, null)
+  }))
+  default = [{
+    action    = "lambda:InvokeFunction"
+    principal = "apigateway.amazonaws.com"
+  }]
+}
+```
+
+* Model of variable method_settings
+```hcl
+variable "method_settings" {
+  description = "Method settings to configuration logs"
+  type = object({
+    logging_level                              = string
+    method_path                                = optional(string, "*/*")
+    metrics_enabled                            = optional(bool, true)
+    data_trace_enabled                         = optional(bool, true)
+    throttling_rate_limit                      = optional(number, 100)
+    throttling_burst_limit                     = optional(number, 50)
+    caching_enabled                            = optional(bool, null)
+    cache_ttl_in_seconds                       = optional(number, null)
+    cache_data_encrypted                       = optional(bool, null)
+    require_authorization_for_cache_control    = optional(bool, null)
+    unauthorized_cache_control_header_strategy = optional(string, null)
+  })
+  default = {
+    logging_level = "INFO"
+  }
+}
+```
+
+* Model of variable use_plans_api_keys
+```hcl
+variable "use_plans_api_keys" {
+  description = "List with all the use plans and API keys to be used in API Gateway"
+  type = list(object({
+    name                 = string
+    quota_limit          = number
+    quota_period         = string
+    quota_offset         = optional(number)
+    description          = optional(string)
+    product_code         = optional(string)
+    throttle_burst_limit = optional(number, 5)
+    throttle_rate_limit  = optional(number, 10)
+    tags                 = optional(map(any))
+    keys = list(object({
+      name        = string
+      description = optional(string)
+      enabled     = optional(bool, true)
+      value       = optional(string)
+      tags        = optional(map(any))
+    }))
+  }))
+  default = [
+    {
+      name         = "tf-100-requests-week"
+      quota_limit  = 100
+      quota_period = "WEEK"
+      description  = "Allow use to 100 requests per week"
+      keys = [
+        {
+          name = "tf-api-week"
+        },
+        {
+          name = "tf-api-second"
+        }
+      ]
+    },
+    {
+      name         = "tf-200-requests-week"
+      quota_limit  = 200
+      quota_period = "WEEK"
+      description  = "Allow use to 200 requests per week"
+      keys = [
+        {
+          name = "tf-api-test"
+        }
+      ]
+    }
+  ]
+}
+```
+
 
 ## Resources
 
